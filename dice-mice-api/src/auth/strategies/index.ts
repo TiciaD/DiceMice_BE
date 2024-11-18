@@ -1,10 +1,14 @@
 import { Profile, Strategy } from 'passport-discord';
 import { PassportStrategy } from '@nestjs/passport';
 import { Inject, Injectable } from '@nestjs/common';
+import { AuthenticationProvider } from '../services/auth/auth';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(
+    @Inject('AUTH_SERVICE')
+    private readonly authService: AuthenticationProvider,
+  ) {
     super({
       clientID: process.env.DISCORD_CLIENT_ID,
       clientSecret: process.env.DISCORD_CLIENT_SECRET,
@@ -24,6 +28,6 @@ export class DiscordStrategy extends PassportStrategy(Strategy) {
       refreshToken,
     };
     console.log('discord info', username, discordId);
-    // return this.authService.validateUser(details);
+    return this.authService.validateUser(details);
   }
 }

@@ -8,19 +8,19 @@ export class DiscordAuthGuard extends AuthGuard('discord') {
     const activate = (await super.canActivate(context)) as boolean;
     console.log('activate', activate);
     const request = context.switchToHttp().getRequest();
-    console.log('request', request);
+    console.log('request switcg to http');
     await super.logIn(request);
     return activate;
   }
 }
 
-// @Injectable()
-// export class AuthenticatedGuard implements CanActivate {
-//   async canActivate(context: ExecutionContext): Promise<boolean> {
-//     const req = context.switchToHttp().getRequest();
-//     return req.isAuthenticated();
-//   }
-// }
+@Injectable()
+export class AuthenticatedGuard implements CanActivate {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const req = context.switchToHttp().getRequest();
+    return req.isAuthenticated();
+  }
+}
 
 // @Injectable()
 // export class GraphQLAuthGuard implements CanActivate {

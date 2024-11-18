@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { entities } from './auth/typeorm';
+import { PassportModule } from '@nestjs/passport';
 
 let envFilePath = '.env.development';
 
@@ -17,6 +18,7 @@ if (process.env.ENVIRONMENT == 'PRODUCTION') {
     ConfigModule.forRoot({
       envFilePath: envFilePath,
     }),
+    PassportModule.register({ session: true }),
     AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
